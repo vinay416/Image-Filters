@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Image filter require permission to pick image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Image filter require permission to use camera</string>
 </dict>
 </plist>
