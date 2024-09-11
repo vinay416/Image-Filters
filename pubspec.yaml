@@ -1,15 +1,14 @@
 name: image_filters
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
   sdk: ">=3.4.1 <4.0.0"
-  
+
 dependencies:
   device_info_plus: ^10.1.2
   dotted_border: ^2.1.0
-  flex_color_picker: ^3.3.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6

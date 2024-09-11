@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_filters/filters/image_blend_filters.dart';
 
 class ImageFiltersBuilder extends StatelessWidget {
   const ImageFiltersBuilder({super.key, required this.imagePath});
@@ -6,6 +7,6 @@ class ImageFiltersBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ImageBlendFilters(imagePath: imagePath);
   }
 }

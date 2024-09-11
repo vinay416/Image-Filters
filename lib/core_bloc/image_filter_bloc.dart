@@ -13,6 +13,7 @@ class ImageFilterBloc extends Bloc<ImageFilterBlocEvent, ImageFilterBlocStates>
   ImageFilterBloc() : super(ImageEmptyState()) {
     on<PickFromGalleryEvent>(_pickImageGallery);
     on<PickFromCameraEvent>(_pickImageCamera);
+    on<AddSaveControllerEvent>(_onSSControllerAddEvent);
     on<SaveImageEvent>(_saveImage);
   }
 
@@ -54,12 +55,18 @@ class ImageFilterBloc extends Bloc<ImageFilterBlocEvent, ImageFilterBlocStates>
     emit(ImageFiltersState(path));
   }
 
+  late WidgetSSController _controller;
+
+  void _onSSControllerAddEvent(AddSaveControllerEvent event, _) {
+    _controller = event.controller;
+  }
+
   void _saveImage(
     SaveImageEvent event,
     Emitter<ImageFilterBlocStates> emit,
   ) async {
     emit(LoadingState(true));
-    final file = await event.controller.takeScreenShot();
+    final file = await _controller.takeScreenShot();
     if (file == null) {
       Fluttertoast.showToast(msg: "Saving image failed");
     }

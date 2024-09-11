@@ -13,12 +13,12 @@ class WidgetScreenshot extends StatelessWidget {
     required this.controller,
   });
   final Widget child;
-  final WidgetSSController controller;
+  final WidgetSSController? controller;
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: controller.screenshotKey,
+      key: controller?.screenshotKey,
       child: child,
     );
   }

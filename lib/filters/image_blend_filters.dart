@@ -1,8 +1,14 @@
-import 'package:flex_color_picker/flex_color_picker.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/core_bloc/image_filter_bloc.dart';
+import 'package:image_filters/filters/image_color_filters.dart';
+import 'package:image_filters/screenshot/widget_screenshot.dart';
 
 class ImageBlendFilters extends StatefulWidget {
-  const ImageBlendFilters({super.key});
+  const ImageBlendFilters({super.key, required this.imagePath});
+  final String imagePath;
 
   @override
   State<ImageBlendFilters> createState() => _ImageBlendFiltersState();
@@ -27,6 +33,23 @@ class _ImageBlendFiltersState extends State<ImageBlendFilters> {
   ];
   int selectedIndex = 0;
   Color? filterColor;
+  late FileImage imageFile;
+  final ssController = WidgetSSController();
+  late ImageFilterBloc imageFilterBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    imageFilterBloc = context.read<ImageFilterBloc>();
+    imageFilterBloc.add(AddSaveControllerEvent(ssController));
+  }
+
+  @override
+  void didChangeDependencies() {
+    imageFile = FileImage(File(widget.imagePath));
+    precacheImage(imageFile, context);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +60,7 @@ class _ImageBlendFiltersState extends State<ImageBlendFilters> {
           height: MediaQuery.of(context).size.height * 0.6,
           child: PageView.builder(
             controller: controller,
-            itemCount: blendModes.length,
+            itemCount: filterColor == null ? 1 : blendModes.length,
             onPageChanged: (value) {
               selectedIndex = value;
               setState(() {});
@@ -45,19 +68,26 @@ class _ImageBlendFiltersState extends State<ImageBlendFilters> {
             itemBuilder: (context, index) {
               final blendMode = blendModes[index];
               final isSelected = selectedIndex == index;
+
               return CardItem(
+                ssController: ssController,
                 blendMode: blendMode,
                 isSelected: isSelected,
                 filterColor: filterColor,
+                imageFile: imageFile,
               );
             },
           ),
         ),
-        ColorFilterPicker(
-          defaultColor: filterColor,
-          onColorChanged: (p0) => setState(() {
-            filterColor = p0;
-          }),
+        Flexible(
+          child: ColorFilterPicker(
+            selectedColor: filterColor,
+            onColorChanged: (p0) => setState(
+              () {
+                filterColor = p0;
+              },
+            ),
+          ),
         ),
       ],
     );
@@ -76,15 +106,19 @@ class CardItem extends StatelessWidget {
     required this.blendMode,
     required this.isSelected,
     required this.filterColor,
+    required this.imageFile,
+    required this.ssController,
   });
-
   final BlendMode blendMode;
   final bool isSelected;
   final Color? filterColor;
+  final FileImage imageFile;
+  final WidgetSSController ssController;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+      clipBehavior: Clip.antiAlias,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       margin: isSelected
@@ -99,73 +133,16 @@ class CardItem extends StatelessWidget {
             blurRadius: 8,
           ),
         ],
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: const NetworkImage(
-            'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?cs=srgb&dl=pexels-chloekalaartist-1043474.jpg&fm=jpg',
-          ),
-          colorFilter: filterColor == null
-              ? null
-              : ColorFilter.mode(filterColor!, blendMode),
-        ),
       ),
-    );
-  }
-}
-
-class ColorFilterPicker extends StatefulWidget {
-  const ColorFilterPicker({
-    super.key,
-    required this.onColorChanged,
-    required this.defaultColor,
-  });
-  final void Function(Color) onColorChanged;
-  final Color? defaultColor;
-
-  @override
-  State<ColorFilterPicker> createState() => _ColorFilterPickerState();
-}
-
-class _ColorFilterPickerState extends State<ColorFilterPicker> {
-  late Color screenPickerColor = widget.defaultColor ?? Colors.white;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusDirectional.circular(20),
-          ),
-          child: ColorPicker(
-            color: screenPickerColor,
-            onColorChanged: (Color color) {
-              setState(() => screenPickerColor = color);
-              widget.onColorChanged(screenPickerColor);
-            },
-            width: 44,
-            height: 44,
-            borderRadius: 22,
-            heading: Text(
-              'Filter color',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            subheading: Text(
-              'Select color shade',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            enableShadesSelection: false,
-            pickersEnabled: const {
-              ColorPickerType.both: false,
-              ColorPickerType.primary: true,
-              ColorPickerType.accent: false,
-              ColorPickerType.bw: false,
-              ColorPickerType.custom: false,
-              ColorPickerType.wheel: false,
-            },
+      child: WidgetScreenshot(
+        controller: isSelected ? ssController : null,
+        child: ColorFiltered(
+          colorFilter: filterColor == null
+              ? ColorFilter.mode(Colors.transparent, blendMode)
+              : ColorFilter.mode(filterColor!, blendMode),
+          child: Image(
+            fit: BoxFit.cover,
+            image: imageFile,
           ),
         ),
       ),

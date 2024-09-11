@@ -6,8 +6,9 @@ final class PickFromGalleryEvent extends ImageFilterBlocEvent {}
 
 final class PickFromCameraEvent extends ImageFilterBlocEvent {}
 
-final class SaveImageEvent extends ImageFilterBlocEvent {
-  SaveImageEvent(this.controller);
+final class AddSaveControllerEvent extends ImageFilterBlocEvent {
   final WidgetSSController controller;
+  AddSaveControllerEvent(this.controller);
 }
 
+final class SaveImageEvent extends ImageFilterBlocEvent {}
