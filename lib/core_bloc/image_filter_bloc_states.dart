@@ -2,6 +2,11 @@ part of 'image_filter_bloc.dart';
 
 sealed class ImageFilterBlocStates {}
 
+final class TabViewState extends ImageFilterBlocStates {
+  final FilterTabBar tabBar;
+  TabViewState(this.tabBar);
+}
+
 final class LoadingState extends ImageFilterBlocStates {
   LoadingState(this.loading);
   final bool loading;

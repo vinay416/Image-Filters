@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:image_filters/gradient_mask/gradient_mask.dart';
+import 'package:image_filters/screenshot/widget_screenshot.dart';
+import 'package:image_filters/views/widget/save_button.dart';
 
-class ImageCard extends StatelessWidget {
-  const ImageCard({super.key});
+class MaskImagePreview extends StatelessWidget {
+  const MaskImagePreview({
+    super.key,
+    required this.isSelected,
+    required this.imageFile,
+    required this.colors,
+    required this.ssController,
+  });
+  final bool isSelected;
+  final FileImage imageFile;
+  final List<Color> colors;
+  final WidgetSSController ssController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      margin: const EdgeInsets.all(16),
+    return AnimatedContainer(
+      clipBehavior: Clip.antiAlias,
+      duration: const Duration(milliseconds: 300),
+      height: MediaQuery.of(context).size.height * 0.6,
+      width: double.infinity,
+      curve: Curves.easeInOut,
+      margin: isSelected
+          ? const EdgeInsets.symmetric(vertical: 16, horizontal: 8)
+          : const EdgeInsets.symmetric(vertical: 38, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -17,12 +36,24 @@ class ImageCard extends StatelessWidget {
             blurRadius: 8,
           ),
         ],
-        image: const DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(
-            'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?cs=srgb&dl=pexels-chloekalaartist-1043474.jpg&fm=jpg',
+      ),
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Positioned.fill(
+            child: WidgetScreenshot(
+              controller: isSelected ? ssController : null,
+              child: GradientMask(
+                colors: colors,
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: imageFile,
+                ),
+              ),
+            ),
           ),
-        ),
+          if (isSelected) const SaveButton(),
+        ],
       ),
     );
   }

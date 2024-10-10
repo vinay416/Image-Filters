@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 
 class GradintFilters {
+  static List<List<Color>> filters = [
+    rgb,
+    purple,
+    vintage,
+    vintageRed,
+    cool,
+    summer,
+    night,
+    sea,
+    christmas,
+  ];
+
   static const List<Color> rgb = [
     Colors.green,
     Colors.red,

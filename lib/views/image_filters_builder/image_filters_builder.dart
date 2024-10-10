@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/core_bloc/image_filter_bloc.dart';
 import 'package:image_filters/filters/image_blend_filters.dart';
+import 'package:image_filters/tabbar/home_filter_tab_bar.dart';
+import 'package:image_filters/views/mask_filters/mask_filters.dart';
 
 class ImageFiltersBuilder extends StatelessWidget {
   const ImageFiltersBuilder({super.key, required this.imagePath});
@@ -7,6 +11,18 @@ class ImageFiltersBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImageBlendFilters(imagePath: imagePath);
+    final bloc = context.read<ImageFilterBloc>();
+
+    return BlocSelector<ImageFilterBloc, ImageFilterBlocStates, FilterTabBar>(
+      selector: (state) {
+        return state is TabViewState ? state.tabBar : bloc.tabBar;
+      },
+      builder: (context, state) {
+        if (state == FilterTabBar.gradients) {
+          return GradientMaskFilter(imagePath: imagePath);
+        }
+        return ImageBlendFilters(imagePath: imagePath);
+      },
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/core_bloc/image_filter_bloc.dart';
+import 'package:image_filters/tabbar/home_filter_tab_bar.dart';
 import 'package:image_filters/views/image_filters_builder/image_filters_builder.dart';
 import 'package:image_filters/views/image_pick_view/image_pick_view.dart';
 import 'package:image_filters/views/permission_error/permission_error_view.dart';
@@ -13,10 +14,6 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Image Editor"),
-        actions: [
-          buildSaveButton(context),
-          const SizedBox(width: 20),
-        ],
       ),
       // body: ImageBlendFilters(),
       // body: GradientMaskFilter(),
@@ -26,24 +23,6 @@ class HomeView extends StatelessWidget {
           buildLoader(),
         ],
       ),
-    );
-  }
-
-  OutlinedButton buildSaveButton(BuildContext context) {
-    return OutlinedButton.icon(
-      style: const ButtonStyle(
-        foregroundColor: WidgetStatePropertyAll(
-          Colors.blue,
-        ),
-        side: WidgetStatePropertyAll(
-          BorderSide(color: Colors.blue),
-        ),
-      ),
-      onPressed: () {
-        context.read<ImageFilterBloc>().add(SaveImageEvent());
-      },
-      label: const Text("Save"),
-      icon: const Icon(Icons.save),
     );
   }
 
@@ -72,14 +51,23 @@ class HomeView extends StatelessWidget {
   Widget buildBody() {
     return BlocBuilder<ImageFilterBloc, ImageFilterBlocStates>(
       buildWhen: (previous, current) {
-        return current is! LoadingState;
+        return current is! LoadingState && current is! TabViewState;
       },
       builder: (context, state) {
         if (state is PermissionErrorState) {
           return const PermissionErrorView();
         }
         if (state is ImageFiltersState) {
-          return ImageFiltersBuilder(imagePath: state.path);
+          return Column(
+            children: [
+              const SizedBox(height: 30),
+              const HomeFilterTabBar(),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ImageFiltersBuilder(imagePath: state.path),
+              ),
+            ],
+          );
         }
         return const ImagePickView();
       },

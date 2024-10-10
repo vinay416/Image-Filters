@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/core_bloc/image_filter_bloc.dart';
 import 'package:image_filters/filters/image_color_filters.dart';
 import 'package:image_filters/screenshot/widget_screenshot.dart';
+import 'package:image_filters/views/widget/save_button.dart';
 
 class ImageBlendFilters extends StatefulWidget {
   const ImageBlendFilters({super.key, required this.imagePath});
@@ -134,17 +135,25 @@ class CardItem extends StatelessWidget {
           ),
         ],
       ),
-      child: WidgetScreenshot(
-        controller: isSelected ? ssController : null,
-        child: ColorFiltered(
-          colorFilter: filterColor == null
-              ? ColorFilter.mode(Colors.transparent, blendMode)
-              : ColorFilter.mode(filterColor!, blendMode),
-          child: Image(
-            fit: BoxFit.cover,
-            image: imageFile,
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Positioned.fill(
+            child: WidgetScreenshot(
+              controller: isSelected ? ssController : null,
+              child: ColorFiltered(
+                colorFilter: filterColor == null
+                    ? ColorFilter.mode(Colors.transparent, blendMode)
+                    : ColorFilter.mode(filterColor!, blendMode),
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: imageFile,
+                ),
+              ),
+            ),
           ),
-        ),
+          if (isSelected) const SaveButton(),
+        ],
       ),
     );
   }
