@@ -22,13 +22,14 @@ class GradientMaskFilter extends StatefulWidget {
 class _GradientMaskFilterState extends State<GradientMaskFilter> {
   int selectedIndex = 0;
   late FileImage imageFile;
-  final ssController = WidgetSSController();
+  late WidgetSSController ssController;
   late ImageFilterBloc imageFilterBloc;
   final controller = PageController(viewportFraction: 0.8);
 
   @override
   void initState() {
     super.initState();
+    ssController = WidgetSSController(widget.imagePath);
     imageFilterBloc = context.read<ImageFilterBloc>();
     imageFilterBloc.add(AddSaveControllerEvent(ssController));
   }

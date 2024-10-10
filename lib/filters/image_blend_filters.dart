@@ -35,12 +35,13 @@ class _ImageBlendFiltersState extends State<ImageBlendFilters> {
   int selectedIndex = 0;
   Color? filterColor;
   late FileImage imageFile;
-  final ssController = WidgetSSController();
+  late WidgetSSController ssController;
   late ImageFilterBloc imageFilterBloc;
 
   @override
   void initState() {
     super.initState();
+    ssController = WidgetSSController(widget.imagePath);
     imageFilterBloc = context.read<ImageFilterBloc>();
     imageFilterBloc.add(AddSaveControllerEvent(ssController));
   }
