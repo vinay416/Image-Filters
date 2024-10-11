@@ -14,14 +14,19 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Image Editor"),
+        title: Text(
+          "Image Filters",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade800,
+          ),
+        ),
         actions: [
           buildRestAction(),
           const SizedBox(width: 10),
         ],
       ),
-      // body: ImageBlendFilters(),
-      // body: GradientMaskFilter(),
       body: Stack(
         children: [
           buildBody(),
