@@ -5,6 +5,7 @@ import 'package:image_filters/tabbar/home_filter_tab_bar.dart';
 import 'package:image_filters/views/image_filters_builder/image_filters_builder.dart';
 import 'package:image_filters/views/image_pick_view/image_pick_view.dart';
 import 'package:image_filters/views/permission_error/permission_error_view.dart';
+import 'package:image_filters/views/widget/image_pick_bottem_sheet.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,6 +15,10 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Image Editor"),
+        actions: [
+          buildRestAction(),
+          const SizedBox(width: 10),
+        ],
       ),
       // body: ImageBlendFilters(),
       // body: GradientMaskFilter(),
@@ -23,6 +28,25 @@ class HomeView extends StatelessWidget {
           buildLoader(),
         ],
       ),
+    );
+  }
+
+  Widget buildRestAction() {
+    return BlocSelector<ImageFilterBloc, ImageFilterBlocStates, bool>(
+      selector: (state) {
+        return (state is ImageFiltersState) || (state is TabViewState);
+      },
+      builder: (context, state) {
+        if (!state) return const SizedBox.shrink();
+        return IconButton(
+          onPressed: () => ImagePickBottemSheet.show(context),
+          icon: const Icon(
+            Icons.add_a_photo_outlined,
+            color: Colors.blue,
+            size: 30,
+          ),
+        );
+      },
     );
   }
 

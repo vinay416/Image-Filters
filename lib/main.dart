@@ -14,8 +14,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ImageFilterBloc(),
-      child: const MaterialApp(
-        home: HomeView(),
+      child: MaterialApp(
+        theme: ThemeData().copyWith(
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+          ),
+        ),
+        home: const HomeView(),
       ),
     );
   }

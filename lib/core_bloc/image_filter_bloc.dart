@@ -33,7 +33,7 @@ class ImageFilterBloc extends Bloc<ImageFilterBlocEvent, ImageFilterBlocStates>
     final (path, _) = await openGallery();
     if (path == null) {
       Fluttertoast.showToast(msg: "Image pick failed/canceled.");
-      emit(ImageEmptyState());
+      emit(LoadingState(false));
       return;
     }
     emit(ImageFiltersState(path));
@@ -52,7 +52,8 @@ class ImageFilterBloc extends Bloc<ImageFilterBlocEvent, ImageFilterBlocStates>
     final (path, _) = await openCamera();
     if (path == null) {
       Fluttertoast.showToast(msg: "Image pick failed/canceled.");
-      emit(ImageEmptyState());
+      emit(LoadingState(false));
+
       return;
     }
     emit(ImageFiltersState(path));

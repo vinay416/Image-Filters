@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   device_info_plus: ^10.1.2
-  dotted_border: ^2.1.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -26,3 +25,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/

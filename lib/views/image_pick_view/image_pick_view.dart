@@ -1,7 +1,5 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_filters/core_bloc/image_filter_bloc.dart';
+import 'package:image_filters/views/widget/image_pick_bottem_sheet.dart';
 
 class ImagePickView extends StatelessWidget {
   const ImagePickView({super.key});
@@ -9,37 +7,20 @@ class ImagePickView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: DottedBorder(
-        strokeWidth: 2,
-        color: Colors.grey,
-        dashPattern: const [10, 3],
-        borderType: BorderType.RRect,
-        radius: const Radius.circular(10),
-        padding: const EdgeInsets.all(20),
-        child: buildChild(context),
-      ),
-    );
-  }
-
-  Widget buildChild(BuildContext context) {
-    final bloc = context.read<ImageFilterBloc>();
-    return Center(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          buildAsset(),
+          Image.asset(
+            "assets/empty_state.png",
+          ),
           buildText(),
           const SizedBox(height: 20),
           buildButton(
-            onTap: () => bloc.add(PickFromCameraEvent()),
-            text: "Camera",
+            onTap: () => ImagePickBottemSheet.show(context),
+            text: "Pick image",
           ),
           const SizedBox(height: 20),
-          buildButton(
-            onTap: () => bloc.add(PickFromGalleryEvent()),
-            text: "Gallery",
-          ),
         ],
       ),
     );
@@ -71,36 +52,12 @@ class ImagePickView extends StatelessWidget {
 
   Text buildText() {
     return const Text(
-      "Pick your image from Camera or Gallery.",
+      "Pick your image from Gallery or Camera.",
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w400,
       ),
       textAlign: TextAlign.center,
-    );
-  }
-
-  Stack buildAsset() {
-    return Stack(
-      alignment: Alignment.bottomRight,
-      children: [
-        Icon(
-          Icons.image_rounded,
-          color: Colors.blue.shade400,
-          size: 150,
-        ),
-        Container(
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          child: const Icon(
-            Icons.add_rounded,
-            size: 40,
-            color: Colors.blue,
-          ),
-        ),
-      ],
     );
   }
 }
