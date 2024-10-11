@@ -34,7 +34,10 @@ class ImagePickBottemSheetWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () => bloc.add(PickFromGalleryEvent()),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    bloc.add(PickFromGalleryEvent());
+                  },
                   icon: const Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Column(
@@ -48,7 +51,10 @@ class ImagePickBottemSheetWidget extends StatelessWidget {
                   iconSize: 50,
                 ),
                 IconButton(
-                  onPressed: () => bloc.add(PickFromCameraEvent()),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    bloc.add(PickFromCameraEvent());
+                  },
                   icon: const Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Column(
