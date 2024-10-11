@@ -39,6 +39,7 @@ class HomeView extends StatelessWidget {
   Widget buildRestAction() {
     return BlocSelector<ImageFilterBloc, ImageFilterBlocStates, bool>(
       selector: (state) {
+        if (state is LoadingState) return !state.loading;
         return (state is ImageFiltersState) || (state is TabViewState);
       },
       builder: (context, state) {
