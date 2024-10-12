@@ -4,7 +4,8 @@ import 'package:image_filters/core_bloc/image_filter_bloc.dart';
 
 enum FilterTabBar {
   colors("Color Filters"),
-  gradients("Gradient Filters");
+  gradients("Gradient Filters"),
+  ai("AI");
 
   final String title;
   const FilterTabBar(this.title);
@@ -50,9 +51,14 @@ class _HomeFilterTabBarState extends State<HomeFilterTabBar> {
                 title: FilterTabBar.colors,
                 selected: state,
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 5),
               buildButton(
                 title: FilterTabBar.gradients,
+                selected: state,
+              ),
+              const SizedBox(width: 5),
+              buildButton(
+                title: FilterTabBar.ai,
                 selected: state,
               ),
             ],
@@ -72,19 +78,24 @@ class _HomeFilterTabBarState extends State<HomeFilterTabBar> {
         selected = title;
         context.read<ImageFilterBloc>().add(TabbarEvent(title));
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.black : null,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-        alignment: Alignment.center,
-        child: Text(
-          title.title,
-          style: TextStyle(
-            color: isSelected ? Colors.blue : Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
+      child: Material(
+        shape: const StadiumBorder(),
+        elevation: isSelected ? 5 : 0,
+        child: Container(
+          constraints: const BoxConstraints(minWidth: 50),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.black : null,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+          alignment: Alignment.center,
+          child: Text(
+            title.title,
+            style: TextStyle(
+              color: isSelected ? Colors.blue : Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
           ),
         ),
       ),
