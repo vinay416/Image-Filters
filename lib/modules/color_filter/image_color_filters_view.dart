@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_filters/core_bloc/image_filter_bloc.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:image_filters/modules/color_filter/widget/color_filter_preview.dart';
 
@@ -37,14 +35,11 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
   Color? filterColor;
   late FileImage imageFile;
   late WidgetSSController ssController;
-  late ImageFilterBloc imageFilterBloc;
 
   @override
   void initState() {
     super.initState();
     ssController = WidgetSSController(widget.imagePath);
-    imageFilterBloc = context.read<ImageFilterBloc>();
-    imageFilterBloc.add(AddSaveControllerEvent(ssController));
   }
 
   @override
