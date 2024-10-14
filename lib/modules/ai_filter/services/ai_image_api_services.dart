@@ -10,9 +10,9 @@ class AiImageApiServices {
     request.files.add(
       await http.MultipartFile.fromPath("image_file", imagePath),
     );
-    request.headers.addAll(
-      {"X-API-Key": "BEYnUxoFRfDokiEHR2oc8hHs"},
-    ); 
+    const apiKey = String.fromEnvironment("REMOVE_IMAGE_BG_API_KEY");
+    request.headers.addAll({"X-API-Key": apiKey});
+    
     final response = await request.send();
     if (response.statusCode == 200) {
       http.Response imgRes = await http.Response.fromStream(response);
