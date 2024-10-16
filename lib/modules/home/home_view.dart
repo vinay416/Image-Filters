@@ -7,6 +7,8 @@ import 'package:image_filters/modules/image_filters_tab/view/image_filters_view.
 import 'package:image_filters/modules/pick_image/view/image_pick_empty_view.dart';
 import 'package:image_filters/modules/pick_image/view/permission_error_view.dart';
 
+import '../color_filter/cubit/color_filter_cubit.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -23,7 +25,9 @@ class HomeView extends StatelessWidget {
           ),
         ),
         actions: [
-          buildRestAction(),
+          buildResetFilterAction(),
+          const SizedBox(width: 10),
+          buildImagePickAction(),
           const SizedBox(width: 10),
         ],
       ),
@@ -31,7 +35,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget buildRestAction() {
+  Widget buildImagePickAction() {
     return BlocSelector<PickImageBloc, PickImageBlocState, bool>(
       selector: (state) {
         if (state is PickImageResultState) return true;
@@ -51,6 +55,32 @@ class HomeView extends StatelessWidget {
     );
   }
 
+  Widget buildResetFilterAction() {
+    return BlocSelector<PickImageBloc, PickImageBlocState, bool>(
+      selector: (state) {
+        if (state is PickImageResultState) return true;
+        return false;
+      },
+      builder: (context, picked) {
+        if (!picked) return const SizedBox.shrink();
+        return SizedBox(
+          height: 35,
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<ColorFilterCubit>().resetState();
+            },
+            style: const ButtonStyle(
+              padding: WidgetStatePropertyAll(EdgeInsets.all(5)),
+              backgroundColor: WidgetStatePropertyAll(Colors.red),
+              foregroundColor: WidgetStatePropertyAll(Colors.white),
+            ),
+            child: const Text("Reset"),
+          ),
+        );
+      },
+    );
+  }
+
   Widget buildBody() {
     return BlocBuilder<PickImageBloc, PickImageBlocState>(
       builder: (context, state) {
@@ -59,6 +89,7 @@ class HomeView extends StatelessWidget {
         }
         if (state is PickImageResultState) {
           return Column(
+            key: ValueKey(state.imagePath),
             children: [
               const SizedBox(height: 30),
               const ImageFilterTabBar(),

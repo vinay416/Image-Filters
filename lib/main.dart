@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit.dart';
 import 'package:image_filters/modules/home/home_view.dart';
 import 'package:image_filters/modules/pick_image/bloc/pick_image_bloc.dart';
 
@@ -21,8 +22,10 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => PickImageBloc()),
         BlocProvider(create: (_) => FilterTabBloc()),
+        BlocProvider(create: (_) => ColorFilterCubit()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: ThemeData().copyWith(
           scaffoldBackgroundColor: Colors.white,

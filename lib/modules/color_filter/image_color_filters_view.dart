@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit.dart';
+import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit_state.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:image_filters/modules/color_filter/widget/color_filter_preview.dart';
 
@@ -15,7 +18,6 @@ class ImageColorFiltersView extends StatefulWidget {
 }
 
 class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
-  final controller = PageController(viewportFraction: 0.8);
   final blendModes = [
     BlendMode.color,
     BlendMode.colorBurn,
@@ -31,63 +33,75 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
     BlendMode.saturation,
     BlendMode.softLight,
   ];
-  int selectedIndex = 0;
-  Color? filterColor;
+  late PageController controller;
   late FileImage imageFile;
   late WidgetSSController ssController;
 
   @override
   void initState() {
     super.initState();
+    final cubit = context.read<ColorFilterCubit>().state;
+    controller = PageController(
+      viewportFraction: 0.8,
+      initialPage: cubit.index,
+    );
     ssController = WidgetSSController(widget.imagePath);
   }
 
   @override
   void didChangeDependencies() {
+    precache();
+    super.didChangeDependencies();
+  }
+
+  void precache() {
     imageFile = FileImage(File(widget.imagePath));
     precacheImage(imageFile, context);
-    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.6,
-          child: PageView.builder(
-            controller: controller,
-            itemCount: filterColor == null ? 1 : blendModes.length,
-            onPageChanged: (value) {
-              selectedIndex = value;
-              setState(() {});
-            },
-            itemBuilder: (context, index) {
-              final blendMode = blendModes[index];
-              final isSelected = selectedIndex == index;
+    final cubit = context.read<ColorFilterCubit>();
 
-              return ColorFilterPreview(
-                ssController: ssController,
-                blendMode: blendMode,
-                isSelected: isSelected,
-                filterColor: filterColor,
-                imageFile: imageFile,
-              );
-            },
-          ),
-        ),
-        Flexible(
-          child: ColorFilterPicker(
-            selectedColor: filterColor,
-            onColorChanged: (p0) => setState(
-              () {
-                filterColor = p0;
-              },
+    return BlocBuilder<ColorFilterCubit, ColorFilterCubitState>(
+      builder: (context, state) {
+        final filterColor = state.selectedColor;
+        final selectedIndex = state.index;
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: PageView.builder(
+                controller: controller,
+                itemCount: filterColor == null ? 1 : blendModes.length,
+                onPageChanged: cubit.onIndexChange,
+                itemBuilder: (context, index) {
+                  final blendMode = blendModes[index];
+                  final isSelected = selectedIndex == index;
+
+                  return ColorFilterPreview(
+                    ssController: ssController,
+                    blendMode: blendMode,
+                    isSelected: isSelected,
+                    filterColor: filterColor,
+                    imageFile: imageFile,
+                  );
+                },
+              ),
             ),
-          ),
-        ),
-      ],
+            Flexible(
+              child: ColorFilterPicker(
+                selectedColor: filterColor,
+                onColorChanged: (color) {
+                  cubit.onColorChange(color, controller);
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
