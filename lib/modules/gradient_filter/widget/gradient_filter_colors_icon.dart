@@ -13,19 +13,35 @@ class GradientFilterColorsIcon extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: colors,
-          stops: const [
-            0.25,
-            0.55,
-            1,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          tileMode: TileMode.mirror,
-        ),
+        border: colors.isEmpty
+            ? Border.all(
+                width: 5,
+                color: Colors.grey,
+              )
+            : null,
+        gradient: colors.isEmpty
+            ? null
+            : LinearGradient(
+                colors: colors,
+                stops: const [
+                  0.25,
+                  0.55,
+                  1,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                tileMode: TileMode.mirror,
+              ),
         shape: BoxShape.circle,
       ),
+      child: colors.isEmpty
+          ? const Center(
+              child: Text(
+                "NONE",
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+            )
+          : null,
     );
   }
 }

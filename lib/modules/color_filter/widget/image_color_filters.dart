@@ -22,12 +22,17 @@ class _ColorFilterPickerState extends State<ColorFilterPicker> {
   @override
   void initState() {
     selectedColor = widget.selectedColor ?? colors.first;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     controller.scrollToIndex(
       colors.indexWhere((e) => e == selectedColor),
       duration: const Duration(milliseconds: 200),
       preferPosition: AutoScrollPosition.middle,
     );
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
@@ -68,12 +73,7 @@ class _ColorFilterPickerState extends State<ColorFilterPicker> {
               ),
               child: CircleAvatar(
                 backgroundColor: colors[index],
-                child: index == 0
-                    ? const Text(
-                        "NONE",
-                        style: TextStyle(color: Colors.grey),
-                      )
-                    : null,
+                child: index == 0 ? const Text("NONE") : null,
               ),
             ),
           ),

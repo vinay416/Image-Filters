@@ -7,21 +7,23 @@ class GradientMask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShaderMask(
-      shaderCallback: (bounds) {
-        return LinearGradient(
-          colors: colors,
-          stops: const [
-            0.25,
-            0.55,
-            1,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          tileMode: TileMode.mirror,
-        ).createShader(bounds);
-      },
-      child: child,
-    );
+    return colors.isEmpty
+        ? child ?? const SizedBox.shrink()
+        : ShaderMask(
+            shaderCallback: (bounds) {
+              return LinearGradient(
+                colors: colors,
+                stops: const [
+                  0.25,
+                  0.55,
+                  1,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                tileMode: TileMode.mirror,
+              ).createShader(bounds);
+            },
+            child: child,
+          );
   }
 }

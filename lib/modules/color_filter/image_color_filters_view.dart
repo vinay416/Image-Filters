@@ -93,6 +93,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
             ),
             Flexible(
               child: ColorFilterPicker(
+                key: ValueKey(filterColor),
                 selectedColor: filterColor,
                 onColorChanged: (color) {
                   cubit.onColorChange(color, controller);
