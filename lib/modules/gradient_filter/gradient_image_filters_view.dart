@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/gradient_filter/gradient_mask/gradint_filters.dart';
-import 'package:image_filters/modules/gradient_filter/widget/gradient_filter_colors_icon.dart';
 import 'package:image_filters/modules/gradient_filter/widget/gradient_image_preview.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 

@@ -15,14 +15,23 @@ class ImageFiltersView extends StatelessWidget {
     return BlocBuilder<FilterTabBloc, FilterTabBlocState>(
       builder: (context, state) {
         final tab = state.tabBar;
-        if (tab == FilterTabBar.ai) {
-          return AiImageFilterView(imagePath: imagePath);
-        }
-        if (tab == FilterTabBar.gradients) {
-          return GradientImageFiltersView(imagePath: imagePath);
-        }
-        return ImageColorFiltersView(imagePath: imagePath);
+
+        return AnimatedSwitcher(
+          duration: Durations.extralong4,
+          switchInCurve: Curves.fastOutSlowIn,
+          child: buildChild(tab),
+        );
       },
     );
+  }
+
+  Widget buildChild(FilterTabBar tab) {
+    if (tab == FilterTabBar.ai) {
+      return AiImageFilterView(imagePath: imagePath);
+    }
+    if (tab == FilterTabBar.gradients) {
+      return GradientImageFiltersView(imagePath: imagePath);
+    }
+    return ImageColorFiltersView(imagePath: imagePath);
   }
 }
