@@ -52,7 +52,8 @@ class GradientImagePreview extends StatelessWidget {
               ),
             ),
           ),
-          if (isSelected) SaveButton(controller: ssController),
+          if (isSelected && colors.isNotEmpty)
+            SaveButton(controller: ssController),
         ],
       ),
     );

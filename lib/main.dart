@@ -4,6 +4,7 @@ import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit.dart
 import 'package:image_filters/modules/home/home_view.dart';
 import 'package:image_filters/modules/pick_image/bloc/pick_image_bloc.dart';
 
+import 'modules/gradient_filter/cubit/gradient_filter_cubit.dart';
 import 'modules/image_filters_tab/bloc/filter_tab_bloc.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => PickImageBloc()),
         BlocProvider(create: (_) => FilterTabBloc()),
         BlocProvider(create: (_) => ColorFilterCubit()),
+        BlocProvider(create: (_) => GradientFilterCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

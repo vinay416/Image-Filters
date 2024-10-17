@@ -14,7 +14,7 @@ class SaveButton extends StatelessWidget {
           foregroundColor: WidgetStatePropertyAll(
             Colors.white,
           ),
-          backgroundColor: WidgetStatePropertyAll(Colors.black54),
+          backgroundColor: WidgetStatePropertyAll(Colors.black26),
           side: WidgetStatePropertyAll(
             BorderSide(color: Colors.blue),
           ),

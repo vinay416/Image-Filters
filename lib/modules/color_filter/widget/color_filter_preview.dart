@@ -53,7 +53,8 @@ class ColorFilterPreview extends StatelessWidget {
               ),
             ),
           ),
-          if (isSelected) SaveButton(controller: ssController),
+          if (isSelected && filterColor != null)
+            SaveButton(controller: ssController),
         ],
       ),
     );

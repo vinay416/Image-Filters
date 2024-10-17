@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/modules/gradient_filter/cubit/gradient_filter_cubit.dart';
+import 'package:image_filters/modules/image_filters_tab/bloc/filter_tab_bloc.dart';
 import 'package:image_filters/modules/pick_image/bloc/pick_image_bloc.dart';
 import 'package:image_filters/modules/pick_image/view/widget/image_pick_bottem_sheet.dart';
 import 'package:image_filters/modules/image_filters_tab/tabbar/image_filter_tab_bar.dart';
@@ -67,7 +69,18 @@ class HomeView extends StatelessWidget {
           height: 35,
           child: ElevatedButton(
             onPressed: () {
-              context.read<ColorFilterCubit>().resetState();
+              final tab = context.read<FilterTabBloc>().state.tabBar;
+              switch (tab) {
+                case FilterTabBar.colors:
+                  context.read<ColorFilterCubit>().resetState();
+                  break;
+                case FilterTabBar.gradients:
+                  context.read<GradientFilterCubit>().resetState();
+                  break;
+                case FilterTabBar.ai:
+                  break;
+                default:
+              }
             },
             style: const ButtonStyle(
               padding: WidgetStatePropertyAll(EdgeInsets.all(5)),
