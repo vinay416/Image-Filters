@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_filters/common/card_decoration.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:image_filters/modules/screenshot/view/save_button.dart';
 
@@ -19,23 +20,8 @@ class ColorFilterPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      clipBehavior: Clip.antiAlias,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      margin: isSelected
-          ? const EdgeInsets.symmetric(vertical: 16, horizontal: 8)
-          : const EdgeInsets.symmetric(vertical: 38, horizontal: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            offset: const Offset(0, 6),
-            blurRadius: 8,
-          ),
-        ],
-      ),
+    return CardDecoration(
+      isSelected: isSelected,
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [

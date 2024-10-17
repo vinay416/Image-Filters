@@ -17,6 +17,11 @@ class GradientFilterCubit extends Cubit<GradientFilterCubitState> {
     emit(GradientFilterCubitState(selectedIndex));
   }
 
+  void setGradientColorIndex(int selectedIndex) async {
+    await _animateScroll(selectedIndex);
+    emit(GradientFilterCubitState(selectedIndex));
+  }
+
   void resetState() {
     _animateScroll(_defaultState.filterIndex);
     emit(_defaultState);
@@ -24,7 +29,7 @@ class GradientFilterCubit extends Cubit<GradientFilterCubitState> {
 
   Future<void> _animateScroll(int index) async {
     await controller.animateToPage(
-      0,
+      index,
       duration: Durations.medium2,
       curve: Curves.decelerate,
     );

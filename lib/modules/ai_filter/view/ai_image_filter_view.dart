@@ -5,21 +5,52 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:image_filters/modules/ai_filter/services/ai_image_api_services.dart';
+import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 
-class AiImageFilterView extends StatelessWidget {
+import 'image_preview/ai_image_preview.dart';
+
+class AiImageFilterView extends StatefulWidget {
   const AiImageFilterView({super.key, required this.imagePath});
   final String imagePath;
+
+  @override
+  State<AiImageFilterView> createState() => _AiImageFilterViewState();
+}
+
+class _AiImageFilterViewState extends State<AiImageFilterView> {
+  late FileImage imageFile;
+  late WidgetSSController ssController;
+
+  @override
+  void initState() {
+    ssController = WidgetSSController(widget.imagePath);
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    precache();
+    super.didChangeDependencies();
+  }
+
+  void precache() {
+    imageFile = FileImage(File(widget.imagePath));
+    precacheImage(imageFile, context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Image.file(File(imagePath)),
+          AiImagePreview(
+            imageFile: imageFile,
+            ssController: ssController,
+          ),
           const Divider(
             thickness: 5,
           ),
-          BGIMage(imagePath: imagePath),
+          BGIMage(imagePath: widget.imagePath),
         ],
       ),
     );

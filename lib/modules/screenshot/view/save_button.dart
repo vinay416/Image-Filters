@@ -16,7 +16,7 @@ class SaveButton extends StatelessWidget {
           ),
           backgroundColor: WidgetStatePropertyAll(Colors.black26),
           side: WidgetStatePropertyAll(
-            BorderSide(color: Colors.blue),
+            BorderSide(color: Colors.grey),
           ),
         ),
         onPressed: () {

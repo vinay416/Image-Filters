@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GradientFilterColorsIcon extends StatelessWidget {
-  const GradientFilterColorsIcon({super.key, required this.colors});
+  const GradientFilterColorsIcon({
+    super.key,
+    required this.colors,
+    required this.isSelected,
+  });
   final List<Color> colors;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +18,9 @@ class GradientFilterColorsIcon extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        border: colors.isEmpty
+        border: isSelected
             ? Border.all(
+                strokeAlign: BorderSide.strokeAlignOutside,
                 width: 5,
                 color: Colors.grey,
               )

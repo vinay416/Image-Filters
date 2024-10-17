@@ -3,8 +3,8 @@ import 'filter_tab_bloc_event.dart';
 import 'filter_tab_bloc_state.dart';
 
 enum FilterTabBar {
-  colors("Color Filters"),
-  gradients("Gradient Filters"),
+  colors("Color"),
+  gradients("Gradient"),
   ai("AI");
 
   final String title;

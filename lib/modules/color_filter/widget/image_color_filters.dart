@@ -65,6 +65,7 @@ class _ColorFilterPickerState extends State<ColorFilterPicker> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
+                  strokeAlign: BorderSide.strokeAlignOutside,
                   width: 5,
                   color: isSelected
                       ? (index == 0 ? Colors.grey : colors[index])

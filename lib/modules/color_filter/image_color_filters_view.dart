@@ -42,7 +42,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
     super.initState();
     final cubit = context.read<ColorFilterCubit>().state;
     controller = PageController(
-      viewportFraction: 0.8,
+      viewportFraction: 0.9,
       initialPage: cubit.index,
     );
     ssController = WidgetSSController(widget.imagePath);
@@ -72,8 +72,9 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.65,
               child: PageView.builder(
+                clipBehavior: Clip.none,
                 controller: controller,
                 itemCount: filterColor == null ? 1 : blendModes.length,
                 onPageChanged: cubit.onIndexChange,

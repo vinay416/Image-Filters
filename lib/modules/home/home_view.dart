@@ -104,7 +104,7 @@ class HomeView extends StatelessWidget {
           return Column(
             key: ValueKey(state.imagePath),
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const ImageFilterTabBar(),
               const SizedBox(height: 20),
               Expanded(

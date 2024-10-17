@@ -8,6 +8,7 @@ import 'package:image_filters/modules/gradient_filter/widget/gradient_image_prev
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 
 import 'cubit/gradient_filter_cubit.dart';
+import 'widget/gradient_filters_colors_list.dart';
 
 class GradientImageFiltersView extends StatefulWidget {
   const GradientImageFiltersView({
@@ -32,7 +33,7 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
     super.initState();
     cubit = context.read<GradientFilterCubit>();
     controller = PageController(
-      viewportFraction: 0.8,
+      viewportFraction: 0.9,
       initialPage: cubit.state.filterIndex,
     );
     cubit.setPageController(controller);
@@ -52,28 +53,35 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
       builder: (context, state) {
         final selectedIndex = state.filterIndex;
 
-        return PageView.builder(
-          controller: controller,
-          itemCount: GradintFilters.filters.length,
-          onPageChanged: cubit.setSelectedIndex,
-          itemBuilder: (context, index) {
-            final colors = GradintFilters.filters[index];
-            final isSelected = selectedIndex == index;
+        return Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.65,
+              child: PageView.builder(
+                clipBehavior: Clip.none,
+                controller: controller,
+                itemCount: GradintFilters.filters.length,
+                onPageChanged: cubit.setSelectedIndex,
+                itemBuilder: (context, index) {
+                  final colors = GradintFilters.filters[index];
+                  final isSelected = selectedIndex == index;
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GradientImagePreview(
-                  ssController: ssController,
-                  colors: colors,
-                  isSelected: isSelected,
-                  imageFile: imageFile,
-                ),
-                GradientFilterColorsIcon(colors: colors),
-                const SizedBox(height: 10),
-              ],
-            );
-          },
+                  return GradientImagePreview(
+                    ssController: ssController,
+                    colors: colors,
+                    isSelected: isSelected,
+                    imageFile: imageFile,
+                  );
+                },
+              ),
+            ),
+            Flexible(
+              child: GradientFilterColorsList(
+                selectedIndex: selectedIndex,
+                onColorChanged: cubit.setGradientColorIndex,
+              ),
+            )
+          ],
         );
       },
     );
