@@ -9,6 +9,9 @@ import 'package:image_filters/modules/image_filters_tab/view/image_filters_view.
 import 'package:image_filters/modules/pick_image/view/image_pick_empty_view.dart';
 import 'package:image_filters/modules/pick_image/view/permission_error_view.dart';
 
+import '../ai_filter/view/image_preview/cubit/ai_image_fit_cubit.dart';
+import '../ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
+import '../ai_filter/view/text_handler/cubit/text_handler_cubit.dart';
 import '../color_filter/cubit/color_filter_cubit.dart';
 
 class HomeView extends StatelessWidget {
@@ -78,6 +81,9 @@ class HomeView extends StatelessWidget {
                   context.read<GradientFilterCubit>().resetState();
                   break;
                 case FilterTabBar.ai:
+                  context.read<RemoveBgCubit>().reset();
+                  context.read<AiImageFitCubit>().reset();
+                  context.read<TextHandlerCubit>().resetState();
                   break;
                 default:
               }

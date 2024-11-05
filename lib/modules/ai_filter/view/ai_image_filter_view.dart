@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
-
 import 'image_preview/view/ai_image_preview.dart';
 
 class AiImageFilterView extends StatefulWidget {
@@ -28,7 +27,6 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
   @override
   void didChangeDependencies() {
     precache();
-    context.read<RemoveBgCubit>().reset();
     super.didChangeDependencies();
   }
 
