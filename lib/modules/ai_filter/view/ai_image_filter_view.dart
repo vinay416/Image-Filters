@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 
-import 'image_preview/ai_image_preview.dart';
+import 'image_preview/view/ai_image_preview.dart';
 
 class AiImageFilterView extends StatefulWidget {
   const AiImageFilterView({super.key, required this.imagePath});

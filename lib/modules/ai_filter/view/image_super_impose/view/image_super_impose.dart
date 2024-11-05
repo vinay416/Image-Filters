@@ -4,7 +4,8 @@ import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/re
 import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit_state.dart';
 
 class ImageSuperImpose extends StatelessWidget {
-  const ImageSuperImpose({super.key});
+  const ImageSuperImpose({super.key, required this.fit});
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ImageSuperImpose extends StatelessWidget {
         if (imageBytes == null) return const SizedBox.shrink();
         return Image.memory(
           imageBytes,
-          fit: BoxFit.contain,
+          fit: fit,
         );
       },
     );

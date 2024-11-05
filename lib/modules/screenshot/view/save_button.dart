@@ -8,7 +8,7 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: OutlinedButton.icon(
         style: const ButtonStyle(
           foregroundColor: WidgetStatePropertyAll(
@@ -22,8 +22,11 @@ class SaveButton extends StatelessWidget {
         onPressed: () {
           controller.takeScreenShot();
         },
-        label: const Text("Save"),
-        icon: const Icon(Icons.save),
+        label: const Text(
+          "Save",
+          style: TextStyle(fontSize: 18),
+        ),
+        icon: const Icon(Icons.download),
       ),
     );
   }

@@ -10,6 +10,8 @@ import 'package:image_filters/modules/image_filters_tab/bloc/filter_tab_bloc_sta
 import 'package:image_filters/modules/ai_filter/view/ai_image_filter_view.dart';
 import 'package:image_filters/modules/gradient_filter/gradient_image_filters_view.dart';
 
+import '../../ai_filter/view/image_preview/cubit/ai_image_fit_cubit.dart';
+
 class ImageFiltersView extends StatelessWidget {
   const ImageFiltersView({super.key, required this.imagePath});
   final String imagePath;
@@ -20,8 +22,10 @@ class ImageFiltersView extends StatelessWidget {
       listeners: [
         BlocProvider(create: (_) => GradientFilterCubit()),
         BlocProvider(create: (_) => ColorFilterCubit()),
+        // AI filter
         BlocProvider(create: (_) => TextHandlerCubit()),
         BlocProvider(create: (_) => RemoveBgCubit()),
+        BlocProvider(create: (_) => AiImageFitCubit()),
       ],
       child: BlocBuilder<FilterTabBloc, FilterTabBlocState>(
         builder: (context, state) {
