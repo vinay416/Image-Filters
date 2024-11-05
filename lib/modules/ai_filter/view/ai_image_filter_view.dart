@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:image_filters/modules/ai_filter/services/ai_image_api_services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 
 import 'image_preview/ai_image_preview.dart';
@@ -30,6 +28,7 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
   @override
   void didChangeDependencies() {
     precache();
+    context.read<RemoveBgCubit>().reset();
     super.didChangeDependencies();
   }
 
@@ -40,88 +39,41 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          AiImagePreview(
-            imageFile: imageFile,
-            ssController: ssController,
-          ),
-          const Divider(
-            thickness: 5,
-          ),
-          BGIMage(imagePath: widget.imagePath),
-        ],
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AiImagePreview(
+              imageFile: imageFile,
+              ssController: ssController,
+            ),
+            const SizedBox(height: 40),
+            buildButton(),
+          ],
+        ),
       ),
     );
   }
-}
 
-class BGIMage extends StatefulWidget {
-  const BGIMage({super.key, required this.imagePath});
-  final String imagePath;
-
-  @override
-  State<BGIMage> createState() => _BGIMageState();
-}
-
-class _BGIMageState extends State<BGIMage> {
-  bool isDone = false;
-  late Uint8List bodyBytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        isDone
-            ? Image.memory(bodyBytes)
-            : ElevatedButton(
-                onPressed: () async {
-                  log("removing......");
-                  final response = await AiImageApiServices().removeBgApi(
-                    widget.imagePath,
-                  );
-                  log("removed");
-                  bodyBytes = response;
-                  isDone = true;
-                  setState(() {});
-                },
-                child: const Text("Remove BG"),
-              ),
-        ElevatedButton(
-          onPressed: () {
-            isDone = false;
-            setState(() {});
-          },
-          child: const Text("Reset"),
+  Widget buildButton() {
+    return OutlinedButton.icon(
+      onPressed: () {
+        context.read<RemoveBgCubit>().removeBg(widget.imagePath);
+      },
+      style: const ButtonStyle(
+        side: WidgetStatePropertyAll(
+          BorderSide(
+            color: Colors.deepPurple,
+            width: 2,
+          ),
         ),
-        const Divider(
-          thickness: 5,
-        ),
-        if (isDone)
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.file(File(widget.imagePath)),
-              Positioned.fill(
-                child: ClipRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(),
-                  ),
-                ),
-              ),
-              const Positioned(
-                top: 90,
-                child: Text(
-                  "HI, babe",
-                  style: TextStyle(fontSize: 50, color: Colors.white),
-                ),
-              ),
-              Image.memory(bodyBytes)
-            ],
-          )
-      ],
+      ),
+      label: const Text(
+        "Reimagine*",
+        style: TextStyle(fontSize: 20),
+      ),
+      icon: const Icon(Icons.mms_outlined),
+      iconAlignment: IconAlignment.end,
     );
   }
 }
