@@ -25,7 +25,7 @@ class GradientFilterCubit extends Cubit<GradientFilterCubitState> {
   }
 
   void setGradientColorIndex(int selectedIndex) async {
-    _animateScroll(selectedIndex);
+    await _animateScroll(selectedIndex);
     emit(GradientFilterCubitState(selectedIndex));
   }
 
@@ -36,9 +36,9 @@ class GradientFilterCubit extends Cubit<GradientFilterCubitState> {
   }
 
   Future<void> _animateColoListScroll(int index) async {
-    colorListcontroller.scrollToIndex(
+    await colorListcontroller.scrollToIndex(
       index,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 100),
       preferPosition: AutoScrollPosition.middle,
     );
   }
