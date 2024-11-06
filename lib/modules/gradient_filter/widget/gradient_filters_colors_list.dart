@@ -4,39 +4,16 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 import 'gradient_filter_colors_icon.dart';
 
-class GradientFilterColorsList extends StatefulWidget {
+class GradientFilterColorsList extends StatelessWidget {
   const GradientFilterColorsList({
     super.key,
     required this.onColorChanged,
     required this.selectedIndex,
+    required this.controller,
   });
   final void Function(int) onColorChanged;
   final int selectedIndex;
-
-  @override
-  State<GradientFilterColorsList> createState() =>
-      _GradientFilterColorsListState();
-}
-
-class _GradientFilterColorsListState extends State<GradientFilterColorsList> {
-  final AutoScrollController controller = AutoScrollController();
-  late int selectedIndex;
-
-  @override
-  void initState() {
-    selectedIndex = widget.selectedIndex;
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    controller.scrollToIndex(
-      selectedIndex,
-      duration: const Duration(milliseconds: 200),
-      preferPosition: AutoScrollPosition.middle,
-    );
-    super.didChangeDependencies();
-  }
+  final AutoScrollController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +31,7 @@ class _GradientFilterColorsListState extends State<GradientFilterColorsList> {
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: () {
-              selectedIndex = index;
-              setState(() {});
-              widget.onColorChanged(selectedIndex);
+              onColorChanged(index);
             },
             child: GradientFilterColorsIcon(
               isSelected: isSelected,
@@ -70,11 +45,5 @@ class _GradientFilterColorsListState extends State<GradientFilterColorsList> {
       },
       itemCount: GradintFilters.filters.length,
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }

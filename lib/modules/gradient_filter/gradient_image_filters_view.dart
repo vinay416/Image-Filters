@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/gradient_filter/gradient_mask/gradint_filters.dart';
 import 'package:image_filters/modules/gradient_filter/widget/gradient_image_preview.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import 'cubit/gradient_filter_cubit.dart';
 import 'widget/gradient_filters_colors_list.dart';
@@ -26,6 +27,7 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
   late WidgetSSController ssController;
   late GradientFilterCubit cubit;
   late PageController controller;
+  final colorListcontroller = AutoScrollController();
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
       initialPage: cubit.state.filterIndex,
     );
     cubit.setPageController(controller);
+    cubit.setColorListController(colorListcontroller);
     ssController = WidgetSSController(widget.imagePath);
   }
 
@@ -76,6 +79,7 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
             ),
             Flexible(
               child: GradientFilterColorsList(
+                controller: colorListcontroller,
                 selectedIndex: selectedIndex,
                 onColorChanged: cubit.setGradientColorIndex,
               ),
@@ -89,6 +93,7 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
   @override
   void dispose() {
     controller.dispose();
+    colorListcontroller.dispose();
     super.dispose();
   }
 }
