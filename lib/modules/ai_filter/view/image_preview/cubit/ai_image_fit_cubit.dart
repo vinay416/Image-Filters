@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AiImageFitCubit extends Cubit<BoxFit> {
   AiImageFitCubit() : super(_default);
 
-  static const _default = BoxFit.contain;
+  static const _default = BoxFit.cover;
 
   void toggleFit() {
     if (state == BoxFit.contain) {

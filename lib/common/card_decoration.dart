@@ -20,6 +20,7 @@ class CardDecoration extends StatelessWidget {
           : const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
@@ -28,7 +29,10 @@ class CardDecoration extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: child,
+      ),
     );
   }
 }
