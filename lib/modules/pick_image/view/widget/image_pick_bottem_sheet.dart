@@ -26,7 +26,10 @@ class ImagePickBottemSheetWidget extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
             "Pick image",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),

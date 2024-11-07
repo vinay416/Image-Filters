@@ -53,12 +53,14 @@ class AiImagePreview extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: [
-            Image(
-              fit: fit,
-              image: imageFile,
+            Positioned.fill(
+              child: Image(
+                fit: fit,
+                image: imageFile,
+              ),
             ),
             const TextPositionWidget(),
-            ImageSuperImpose(fit: fit),
+            Positioned.fill(child: ImageSuperImpose(fit: fit)),
             const TextPositionHandler(),
           ],
         );
