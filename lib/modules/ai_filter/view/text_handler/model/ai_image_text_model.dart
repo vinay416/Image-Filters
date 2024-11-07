@@ -8,12 +8,14 @@ class AiImageTextModel {
     required this.position,
     required this.rotate,
     required this.isEditing,
+    required this.isFieldFocused,
   });
   final String text;
   final TextStyle textStyle;
   final Offset position;
   final Offset rotate;
   final bool isEditing;
+  final bool isFieldFocused;
 
   AiImageTextModel copyWith({
     String? text,
@@ -21,6 +23,7 @@ class AiImageTextModel {
     Offset? position,
     Offset? rotate,
     bool? isEditing,
+    bool? isFieldFocused,
   }) {
     return AiImageTextModel(
       text: text ?? this.text,
@@ -28,6 +31,7 @@ class AiImageTextModel {
       position: position ?? this.position,
       rotate: rotate ?? this.rotate,
       isEditing: isEditing ?? this.isEditing,
+      isFieldFocused: isFieldFocused ?? this.isFieldFocused,
     );
   }
 }

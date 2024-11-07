@@ -8,10 +8,14 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
 
   static const _default = AiImageTextModel(
     text: "Your Text",
-    textStyle: TextStyle(fontSize: 25),
+    textStyle: TextStyle(
+      fontSize: 50,
+      color: Colors.white,
+    ),
     position: Offset.zero,
     rotate: Offset.zero,
     isEditing: false,
+    isFieldFocused: true,
   );
 
   void updateTextStyle(TextStyle textStyle) {
@@ -20,9 +24,11 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     ));
   }
 
-  void updateText(String text) {
+  void onChangeText(String text) {
+    final newText = text.trim();
+    final updatedText = newText.isEmpty ? _default.text : newText;
     emit(TextHandlerCubitState(
-      state.textModel.copyWith(text: text),
+      state.textModel.copyWith(text: updatedText),
     ));
   }
 
@@ -41,6 +47,12 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
   void isEditing(bool isEditing) {
     emit(TextHandlerCubitState(
       state.textModel.copyWith(isEditing: isEditing),
+    ));
+  }
+
+  void isFieldFocused(bool focused) {
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(isFieldFocused: focused),
     ));
   }
 

@@ -55,18 +55,50 @@ class _TextPositionHandlerState extends State<TextPositionHandler> {
   Widget buildText(AiImageTextModel textModel) {
     final size = textSizeArea(textModel);
     final bool isEditing = textModel.isEditing;
+    final bool isFieldFocused = textModel.isFieldFocused;
+
     return Container(
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: isEditing
-            ? Border.all(
-                width: 2,
-              )
-            : null,
+        color: isFieldFocused ? Colors.black54 : null,
+        border: isEditing ? Border.all(width: 2) : null,
         borderRadius: BorderRadius.circular(20),
       ),
       child: SizedBox(
-        height: size.height,
-        width: size.width,
+        width: size.width + 20,
+        child: buildTextField(textModel),
+      ),
+    );
+  }
+
+  Widget buildTextField(AiImageTextModel textModel) {
+    InputBorder buildBorder() {
+      return InputBorder.none;
+    }
+
+    final bool isFieldFocused = textModel.isFieldFocused;
+
+    return TextFormField(
+      initialValue: textModel.text,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      style: textModel.textStyle.copyWith(
+        color: isFieldFocused ? null : Colors.transparent,
+      ),
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+        cubit.isFieldFocused(false);
+      },
+      onTap: () => cubit.isFieldFocused(true),
+      magnifierConfiguration: TextMagnifierConfiguration.disabled,
+      onChanged: cubit.onChangeText,
+      cursorColor: textModel.textStyle.color,
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+        border: buildBorder(),
+        focusedBorder: buildBorder(),
+        enabledBorder: buildBorder(),
+        isCollapsed: true,
       ),
     );
   }
@@ -74,11 +106,9 @@ class _TextPositionHandlerState extends State<TextPositionHandler> {
   Size textSizeArea(AiImageTextModel textModel) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
-          text: "EMMA",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 120,
-          )),
+        text: textModel.text,
+        style: textModel.textStyle,
+      ),
       textDirection: TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: double.infinity);
     return textPainter.size;

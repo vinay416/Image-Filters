@@ -35,12 +35,14 @@ class _TextPositionWidgetState extends State<TextPositionWidget> {
   }
 
   Widget buildText(AiImageTextModel textModel) {
+    final bool isFieldFocused = textModel.isFieldFocused;
+
     return Text(
-      "EMMA",
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 120,
+      textModel.text,
+      style: textModel.textStyle.copyWith(
+        color: isFieldFocused ? Colors.transparent : null,
       ),
+      textAlign: TextAlign.center,
     );
   }
 }
