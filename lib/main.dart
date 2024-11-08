@@ -5,6 +5,7 @@ import 'package:image_filters/modules/pick_image/bloc/pick_image_bloc.dart';
 
 import 'modules/ai_filter/view/image_preview/cubit/ai_image_fit_cubit.dart';
 import 'modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
+import 'modules/ai_filter/view/image_tools/cubit/image_tools_cubit.dart';
 import 'modules/ai_filter/view/text_handler/cubit/text_handler_cubit.dart';
 import 'modules/color_filter/cubit/color_filter_cubit.dart';
 import 'modules/gradient_filter/cubit/gradient_filter_cubit.dart';
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => TextHandlerCubit()),
         BlocProvider(create: (_) => RemoveBgCubit()),
         BlocProvider(create: (_) => AiImageFitCubit()),
+        BlocProvider(create: (_) => ImageToolsCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

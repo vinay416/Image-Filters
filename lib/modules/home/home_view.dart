@@ -11,6 +11,7 @@ import 'package:image_filters/modules/pick_image/view/permission_error_view.dart
 
 import '../ai_filter/view/image_preview/cubit/ai_image_fit_cubit.dart';
 import '../ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
+import '../ai_filter/view/image_tools/cubit/image_tools_cubit.dart';
 import '../ai_filter/view/text_handler/cubit/text_handler_cubit.dart';
 import '../color_filter/cubit/color_filter_cubit.dart';
 
@@ -22,13 +23,14 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Image Filters",
+          "Filters",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
             color: Colors.grey.shade800,
           ),
         ),
+        centerTitle: false,
         actions: [
           buildResetFilterAction(),
           const SizedBox(width: 10),
@@ -70,7 +72,7 @@ class HomeView extends StatelessWidget {
         if (!picked) return const SizedBox.shrink();
         return SizedBox(
           height: 35,
-          child: ElevatedButton(
+          child: TextButton(
             onPressed: () {
               final tab = context.read<FilterTabBloc>().state.tabBar;
               switch (tab) {
@@ -84,16 +86,19 @@ class HomeView extends StatelessWidget {
                   context.read<RemoveBgCubit>().reset();
                   context.read<AiImageFitCubit>().reset();
                   context.read<TextHandlerCubit>().resetState();
+                  context.read<ImageToolsCubit>().reset();
                   break;
                 default:
               }
             },
             style: const ButtonStyle(
               padding: WidgetStatePropertyAll(EdgeInsets.all(5)),
-              backgroundColor: WidgetStatePropertyAll(Colors.red),
-              foregroundColor: WidgetStatePropertyAll(Colors.white),
+              foregroundColor: WidgetStatePropertyAll(Colors.red),
             ),
-            child: const Text("Reset"),
+            child: const Text(
+              "Reset",
+              style: TextStyle(fontSize: 18),
+            ),
           ),
         );
       },
@@ -110,7 +115,7 @@ class HomeView extends StatelessWidget {
           return Column(
             key: ValueKey(state.imagePath),
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               const ImageFilterTabBar(),
               const SizedBox(height: 20),
               Expanded(

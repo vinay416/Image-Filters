@@ -18,9 +18,24 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     isFieldFocused: true,
   );
 
-  void updateTextStyle(TextStyle textStyle) {
+  void updateTextSize(double size) {
+    final newStyle = state.textModel.textStyle.copyWith(fontSize: size);
     emit(TextHandlerCubitState(
-      state.textModel.copyWith(textStyle: textStyle),
+      state.textModel.copyWith(textStyle: newStyle),
+    ));
+  }
+
+  void updateTextFamily(String fontFamily) {
+    final newStyle = state.textModel.textStyle.copyWith(fontFamily: fontFamily);
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(textStyle: newStyle),
+    ));
+  }
+
+  void updateTextColor(Color color) {
+    final newStyle = state.textModel.textStyle.copyWith(color: color);
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(textStyle: newStyle),
     ));
   }
 
