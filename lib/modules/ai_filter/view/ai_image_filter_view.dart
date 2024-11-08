@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
-import 'package:image_filters/modules/ai_filter/view/image_tools/tools/text_tools_view.dart';
+import 'package:image_filters/modules/ai_filter/view/image_tools/view/text_tools_view.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'image_preview/view/ai_image_preview.dart';
 

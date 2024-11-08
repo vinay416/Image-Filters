@@ -25,8 +25,13 @@ class _TextPositionWidgetState extends State<TextPositionWidget> {
     return BlocBuilder<TextHandlerCubit, TextHandlerCubitState>(
       builder: (context, state) {
         final pos = state.textModel.position;
+        final rotate = state.textModel.rotate;
         return Transform(
-          transform: Matrix4.identity()..translate(pos.dx, pos.dy),
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..translate(pos.dx, pos.dy)
+            ..rotateX(rotate.dx)
+            ..rotateY(rotate.dy),
           alignment: Alignment.center,
           child: buildText(state.textModel),
         );

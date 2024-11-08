@@ -4,14 +4,16 @@ class CustomCircularButton extends StatelessWidget {
   const CustomCircularButton({
     super.key,
     required this.onTap,
-    this.bgColor = Colors.black,
+    this.bgColor,
     required this.icon,
-    this.iconColor = Colors.white,
+    this.iconColor,
+    this.iconSize,
   });
   final VoidCallback onTap;
-  final Color bgColor;
+  final Color? bgColor;
   final IconData icon;
-  final Color iconColor;
+  final double? iconSize;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +27,14 @@ class CustomCircularButton extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           margin: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: bgColor,
+            color: bgColor ?? Colors.black,
             shape: BoxShape.circle,
             border: Border.all(color: Colors.grey),
           ),
           child: Icon(
             icon,
-            size: 35,
-            color: iconColor,
+            size: iconSize ?? 35,
+            color: iconColor ?? Colors.white,
           ),
         ),
       ),

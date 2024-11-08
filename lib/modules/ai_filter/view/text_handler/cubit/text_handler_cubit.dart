@@ -47,9 +47,17 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     ));
   }
 
-  void updateRotation(Offset rotate) {
+  void updateRotationX(double dx) {
+    final oldOffset = state.textModel.rotate;
     emit(TextHandlerCubitState(
-      state.textModel.copyWith(rotate: rotate),
+      state.textModel.copyWith(rotate: Offset(dx, oldOffset.dy)),
+    ));
+  }
+
+  void updateRotationY(double dy) {
+    final oldOffset = state.textModel.rotate;
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(rotate: Offset(oldOffset.dx, dy)),
     ));
   }
 
