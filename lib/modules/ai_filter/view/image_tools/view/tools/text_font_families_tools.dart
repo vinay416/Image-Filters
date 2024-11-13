@@ -6,8 +6,8 @@ import 'package:image_filters/modules/ai_filter/view/text_handler/cubit/text_han
 enum TextFontFamilies {
   none(""),
   monoton("Monoton"),
-  orbitron("Orbitron"),
   rockSalt("RockSalt"),
+  orbitron("Orbitron"),
   sourGummy("SourGummy"),
   basasNeue("BebasNeue"),
   anton("Anton"),
