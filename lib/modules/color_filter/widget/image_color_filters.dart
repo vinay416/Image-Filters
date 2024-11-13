@@ -6,9 +6,13 @@ class ColorFilterPicker extends StatefulWidget {
     super.key,
     required this.onColorChanged,
     required this.selectedColor,
+    required this.colors,
+    this.size = 60,
   });
   final void Function(Color?) onColorChanged;
   final Color? selectedColor;
+  final List<Color> colors;
+  final double size;
 
   @override
   State<ColorFilterPicker> createState() => _ColorFilterPickerState();
@@ -17,10 +21,11 @@ class ColorFilterPicker extends StatefulWidget {
 class _ColorFilterPickerState extends State<ColorFilterPicker> {
   final AutoScrollController controller = AutoScrollController();
   late Color selectedColor;
-  final List<Color> colors = [Colors.transparent, ...Colors.primaries];
+  late List<Color> colors;
 
   @override
   void initState() {
+    colors = widget.colors;
     selectedColor = widget.selectedColor ?? colors.first;
     super.initState();
   }
@@ -57,8 +62,8 @@ class _ColorFilterPickerState extends State<ColorFilterPicker> {
               widget.onColorChanged(callbackColor);
             },
             child: Container(
-              height: 60,
-              width: 60,
+              height: widget.size,
+              width: widget.size,
               margin: const EdgeInsets.all(2),
               padding: const EdgeInsets.all(2),
               clipBehavior: Clip.antiAlias,
@@ -74,7 +79,7 @@ class _ColorFilterPickerState extends State<ColorFilterPicker> {
               ),
               child: CircleAvatar(
                 backgroundColor: colors[index],
-                child: index == 0 ? const Text("NONE") : null,
+                child: index == 0 ? const Text("NA") : null,
               ),
             ),
           ),

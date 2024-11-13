@@ -43,7 +43,7 @@ class GradientFilterColorsIcon extends StatelessWidget {
       child: colors.isEmpty
           ? const Center(
               child: Text(
-                "NONE",
+                "NA",
                 style: TextStyle(fontWeight: FontWeight.w500),
               ),
             )

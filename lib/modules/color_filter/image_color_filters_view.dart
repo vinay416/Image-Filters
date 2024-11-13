@@ -36,6 +36,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
   late PageController controller;
   late FileImage imageFile;
   late WidgetSSController ssController;
+  final List<Color> colors = [Colors.transparent, ...Colors.primaries];
 
   @override
   void initState() {
@@ -95,6 +96,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
             Flexible(
               child: ColorFilterPicker(
                 key: ValueKey(filterColor),
+                colors: colors,
                 selectedColor: filterColor,
                 onColorChanged: (color) {
                   cubit.onColorChange(color, controller);

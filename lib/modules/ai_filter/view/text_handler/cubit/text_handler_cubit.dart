@@ -25,15 +25,17 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     ));
   }
 
-  void updateTextFamily(String fontFamily) {
+  void updateTextFamily(String? fontFamily) {
     final newStyle = state.textModel.textStyle.copyWith(fontFamily: fontFamily);
     emit(TextHandlerCubitState(
       state.textModel.copyWith(textStyle: newStyle),
     ));
   }
 
-  void updateTextColor(Color color) {
-    final newStyle = state.textModel.textStyle.copyWith(color: color);
+  void updateTextColor(Color? color) {
+    final newStyle = state.textModel.textStyle.copyWith(
+      color: color ?? Colors.white,
+    );
     emit(TextHandlerCubitState(
       state.textModel.copyWith(textStyle: newStyle),
     ));
