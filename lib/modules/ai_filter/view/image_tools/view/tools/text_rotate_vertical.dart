@@ -14,8 +14,8 @@ class TextRotateVerticalTool extends StatelessWidget {
       builder: (context, value) {
         final dy = value.textModel.rotate.dy;
         return SliderWidget(
-          min: -math.pi / 2,
-          max: math.pi / 2,
+          min: -(math.pi / 2.5),
+          max: (math.pi / 2.5),
           selectedValue: dy,
           onChange: context.read<TextHandlerCubit>().updateRotationY,
         );

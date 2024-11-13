@@ -30,7 +30,7 @@ class SliderWidget extends StatelessWidget {
       ),
       child: Slider.adaptive(
         onChanged: onChange,
-        label: "${selectedValue.toInt()}",
+        label: selectedValue.toStringAsFixed(2),
         min: min,
         max: max,
         value: selectedValue,

@@ -14,8 +14,8 @@ class TextRotateHorizontalTool extends StatelessWidget {
       builder: (context, value) {
         final dx = value.textModel.rotate.dx;
         return SliderWidget(
-          min: -math.pi / 2,
-          max: math.pi / 2,
+          min: -(math.pi / 2.5),
+          max: (math.pi / 2.5),
           selectedValue: dx,
           onChange: context.read<TextHandlerCubit>().updateRotationX,
         );
