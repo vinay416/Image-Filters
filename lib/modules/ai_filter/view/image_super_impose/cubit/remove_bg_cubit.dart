@@ -8,7 +8,7 @@ import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/re
 class RemoveBgCubit extends Cubit<RemoveBgCubitState> with OverlayLoaderMixin {
   RemoveBgCubit() : super(_default);
 
-  static final _default = RemoveBgCubitState(null);
+  static final _default = RemoveBgCubitState(null, originalImage: null);
 
   Future<void> removeBg(String originalImage) async {
     try {
@@ -16,7 +16,10 @@ class RemoveBgCubit extends Cubit<RemoveBgCubitState> with OverlayLoaderMixin {
       final response = await AiImageApiServices().removeBgApi(
         originalImage,
       );
-      emit(RemoveBgCubitState(response));
+      emit(RemoveBgCubitState(
+        response,
+        originalImage: originalImage,
+      ));
       removeFullLoader();
     } catch (e) {
       log("Error -> remove image BG API $e");

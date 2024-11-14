@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit.dart';
 import 'package:image_filters/modules/ai_filter/view/image_tools/view/text_tools_view.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'image_preview/view/ai_image_preview.dart';
@@ -18,10 +16,12 @@ class AiImageFilterView extends StatefulWidget {
 class _AiImageFilterViewState extends State<AiImageFilterView> {
   late FileImage imageFile;
   late WidgetSSController ssController;
+  late String imagePath;
 
   @override
   void initState() {
-    ssController = WidgetSSController(widget.imagePath);
+    imagePath = widget.imagePath;
+    ssController = WidgetSSController(imagePath);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
   }
 
   void precache() {
-    imageFile = FileImage(File(widget.imagePath));
+    imageFile = FileImage(File(imagePath));
     precacheImage(imageFile, context);
   }
 
@@ -47,33 +47,10 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
               ssController: ssController,
             ),
             const SizedBox(height: 20),
-            TextToolsView(),
-            // buildButton(),
+            TextToolsView(imagePath: imagePath),
           ],
         ),
       ),
-    );
-  }
-
-  Widget buildButton() {
-    return OutlinedButton.icon(
-      onPressed: () {
-        context.read<RemoveBgCubit>().removeBg(widget.imagePath);
-      },
-      style: const ButtonStyle(
-        side: WidgetStatePropertyAll(
-          BorderSide(
-            color: Colors.deepPurple,
-            width: 2,
-          ),
-        ),
-      ),
-      label: const Text(
-        "Reimagine*",
-        style: TextStyle(fontSize: 20),
-      ),
-      icon: const Icon(Icons.mms_outlined),
-      iconAlignment: IconAlignment.end,
     );
   }
 }

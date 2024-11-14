@@ -16,6 +16,8 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     rotate: Offset.zero,
     isEditing: false,
     isFieldFocused: true,
+    isForegroundText: true,
+    backgroundBlur: 0,
   );
 
   void updateTextSize(double size) {
@@ -78,6 +80,19 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
   void isFieldFocused(bool focused) {
     emit(TextHandlerCubitState(
       state.textModel.copyWith(isFieldFocused: focused),
+    ));
+  }
+
+  void toggleTextForeground() {
+    final isForegroundText = !state.textModel.isForegroundText;
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(isForegroundText: isForegroundText),
+    ));
+  }
+
+  void updateBackgroundBlur(double blur) {
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(backgroundBlur: blur),
     ));
   }
 
