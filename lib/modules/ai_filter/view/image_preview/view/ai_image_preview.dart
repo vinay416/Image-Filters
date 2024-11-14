@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/common/card_decoration.dart';
 import 'package:image_filters/modules/ai_filter/view/image_preview/cubit/ai_image_fit_cubit.dart';
+import 'package:image_filters/modules/ai_filter/view/text_handler/cubit/text_handler_cubit.dart';
 import 'package:image_filters/modules/ai_filter/view/text_handler/view/text_position_handler.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:image_filters/modules/screenshot/view/save_button.dart';
@@ -50,6 +53,10 @@ class AiImagePreview extends StatelessWidget {
   Widget buildStack() {
     return BlocBuilder<AiImageFitCubit, BoxFit>(
       builder: (context, fit) {
+        final textCubit = context.watch<TextHandlerCubit>().state;
+        final is2D = textCubit.textModel.isForegroundText;
+        final blur = textCubit.textModel.backgroundBlur;
+
         return Stack(
           alignment: Alignment.center,
           children: [
@@ -59,6 +66,11 @@ class AiImagePreview extends StatelessWidget {
                 image: imageFile,
               ),
             ),
+            if (!is2D)
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                child: Container(),
+              ),
             const TextPositionWidget(),
             Positioned.fill(child: ImageSuperImpose(fit: fit)),
             const TextPositionHandler(),

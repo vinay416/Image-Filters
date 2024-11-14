@@ -45,6 +45,7 @@ mixin ImagePickerService {
             toolbarTitle: 'Cropper',
             toolbarColor: Colors.blue,
             toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: Colors.blue,
             aspectRatioPresets: [
               CropAspectRatioPreset.original,
               CropAspectRatioPreset.square,
