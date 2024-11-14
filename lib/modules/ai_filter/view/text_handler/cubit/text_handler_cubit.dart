@@ -97,6 +97,12 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     ));
   }
 
+  void resetTextForeground() {
+    emit(TextHandlerCubitState(
+      state.textModel.copyWith(isForegroundText: true),
+    ));
+  }
+
   void updateBackgroundBlur(double blur) {
     emit(TextHandlerCubitState(
       state.textModel.copyWith(backgroundBlur: blur),
