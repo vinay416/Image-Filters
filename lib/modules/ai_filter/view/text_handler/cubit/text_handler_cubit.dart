@@ -20,6 +20,13 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     backgroundBlur: 0,
   );
 
+  late ScrollController _toolsListScrollController;
+  void setToolsListScrollController(
+    ScrollController scrollController,
+  ) {
+    _toolsListScrollController = scrollController;
+  }
+
   void updateTextSize(double size) {
     final newStyle = state.textModel.textStyle.copyWith(fontSize: size);
     emit(TextHandlerCubitState(
@@ -97,6 +104,7 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
   }
 
   void resetState() {
+    _toolsListScrollController.jumpTo(0);
     emit(TextHandlerCubitState(_default));
   }
 }

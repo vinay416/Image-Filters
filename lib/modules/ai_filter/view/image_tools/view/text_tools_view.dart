@@ -9,6 +9,7 @@ import 'package:image_filters/modules/ai_filter/view/image_tools/view/tools/text
 import 'package:image_filters/modules/ai_filter/view/image_tools/view/tools/text_rotate_horizontal.dart';
 import 'package:image_filters/modules/ai_filter/view/image_tools/view/tools/text_rotate_vertical.dart';
 import 'package:image_filters/modules/ai_filter/view/image_tools/view/tools/text_size_tool.dart';
+import 'package:image_filters/modules/ai_filter/view/text_handler/cubit/text_handler_cubit.dart';
 
 class TextToolsView extends StatefulWidget {
   const TextToolsView({super.key, required this.imagePath});
@@ -26,6 +27,9 @@ class _TextToolsViewState extends State<TextToolsView> {
   void initState() {
     imagePath = widget.imagePath;
     super.initState();
+    context
+        .read<TextHandlerCubit>()
+        .setToolsListScrollController(scrollController);
   }
 
   @override
