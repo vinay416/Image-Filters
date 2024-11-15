@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -27,7 +28,9 @@ class AiImagePreview extends StatelessWidget {
     return CardDecoration(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.95,
-        height: MediaQuery.of(context).size.height * 0.65,
+        height: Platform.isIOS
+            ? MediaQuery.of(context).size.height * 0.6
+            : MediaQuery.of(context).size.height * 0.65,
         child: Stack(
           alignment: Alignment.bottomRight,
           children: [

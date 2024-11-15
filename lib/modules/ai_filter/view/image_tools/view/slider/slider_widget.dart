@@ -28,7 +28,7 @@ class SliderWidget extends StatelessWidget {
         activeTrackColor: Colors.blue,
         thumbColor: Colors.black,
       ),
-      child: Slider.adaptive(
+      child: Slider(
         onChanged: onChange,
         label: selectedValue.toStringAsFixed(2),
         min: min,

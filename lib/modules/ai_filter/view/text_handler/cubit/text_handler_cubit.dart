@@ -90,10 +90,9 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     ));
   }
 
-  void toggleTextForeground() {
-    final isForegroundText = !state.textModel.isForegroundText;
+  void toggleTextForeground(bool value) {
     emit(TextHandlerCubitState(
-      state.textModel.copyWith(isForegroundText: isForegroundText),
+      state.textModel.copyWith(isForegroundText: !value),
     ));
   }
 

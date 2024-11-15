@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
@@ -12,8 +13,9 @@ class AiImageApiServices {
     );
     const apiKey = String.fromEnvironment("REMOVE_IMAGE_BG_API_KEY");
     request.headers.addAll({"X-API-Key": apiKey});
-    
+
     final response = await request.send();
+    log("AI Response: ${response.statusCode}");
     if (response.statusCode == 200) {
       http.Response imgRes = await http.Response.fromStream(response);
       return imgRes.bodyBytes;

@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_filters/core/overlay_loader_mixin.dart';
 import 'package:image_filters/modules/ai_filter/services/ai_image_api_services.dart';
 import 'package:image_filters/modules/ai_filter/view/image_super_impose/cubit/remove_bg_cubit_state.dart';
@@ -10,7 +9,7 @@ class RemoveBgCubit extends Cubit<RemoveBgCubitState> with OverlayLoaderMixin {
 
   static final _default = RemoveBgCubitState(null, originalImage: null);
 
-  Future<void> removeBg(String originalImage) async {
+  Future<bool> removeBg(String originalImage) async {
     try {
       insertFullLoader();
       final response = await AiImageApiServices().removeBgApi(
@@ -21,10 +20,13 @@ class RemoveBgCubit extends Cubit<RemoveBgCubitState> with OverlayLoaderMixin {
         originalImage: originalImage,
       ));
       removeFullLoader();
+      if (response.isEmpty) throw response;
+      return response.isNotEmpty;
     } catch (e) {
-      log("Error -> remove image BG API $e");
+      Fluttertoast.showToast(msg: "AI API failed, try later!");
       emit(_default);
       removeFullLoader();
+      return false;
     }
   }
 

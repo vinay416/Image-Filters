@@ -21,20 +21,25 @@ class TextDepthButton extends StatelessWidget {
       builder: (context, value) {
         final bool isForegroundText = value.textModel.isForegroundText;
         return CustomCircularButton(
-          onTap: () {
-            final removeBgCubit = context.read<RemoveBgCubit>();
-            final isBgRemoved = removeBgCubit.state.originalImage == imagePath;
-            if (!isBgRemoved) {
-              context.read<RemoveBgCubit>().removeBg(imagePath);
-            }
-            context.read<TextHandlerCubit>().toggleTextForeground();
-            animateScroll();
-          },
+          onTap: () => onTap(context),
           icon: CupertinoIcons.view_3d,
           bgColor: isForegroundText ? Colors.black : Colors.orange,
         );
       },
     );
+  }
+
+  void onTap(BuildContext context) async {
+    final removeBgCubit = context.read<RemoveBgCubit>();
+    final isAlreadyRemoved = removeBgCubit.state.originalImage == imagePath;
+    final textHandlerCubit = context.read<TextHandlerCubit>();
+    if (!isAlreadyRemoved) {
+      final isSuccess = await removeBgCubit.removeBg(imagePath);
+      textHandlerCubit.toggleTextForeground(isSuccess);
+    } else {
+      textHandlerCubit.toggleTextForeground(isAlreadyRemoved);
+    }
+    animateScroll();
   }
 
   void animateScroll() async {
