@@ -7,10 +7,11 @@ import 'package:image_filters/modules/image_filters_tab/bloc/filter_tab_bloc.dar
 import 'package:image_filters/modules/image_filters_tab/bloc/filter_tab_bloc_state.dart';
 import 'package:image_filters/modules/ai_filter/view/ai_image_filter_view.dart';
 import 'package:image_filters/modules/gradient_filter/gradient_image_filters_view.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 
 class ImageFiltersView extends StatefulWidget {
-  const ImageFiltersView({super.key, required this.imagePath});
-  final String imagePath;
+  const ImageFiltersView({super.key, required this.image});
+  final ImagePickModel image;
 
   @override
   State<ImageFiltersView> createState() => _ImageFiltersViewState();
@@ -41,11 +42,11 @@ class _ImageFiltersViewState extends State<ImageFiltersView> {
 
   Widget buildChild(FilterTabBar tab) {
     if (tab == FilterTabBar.ai) {
-      return AiImageFilterView(imagePath: widget.imagePath);
+      return AiImageFilterView(image: widget.image);
     }
     if (tab == FilterTabBar.gradients) {
-      return GradientImageFiltersView(imagePath: widget.imagePath);
+      return GradientImageFiltersView(image: widget.image);
     }
-    return ImageColorFiltersView(imagePath: widget.imagePath);
+    return ImageColorFiltersView(image: widget.image);
   }
 }

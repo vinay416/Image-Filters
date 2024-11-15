@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_filters/core/overlay_loader_mixin.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 import 'package:image_filters/modules/pick_image/services/image_camera_permission_mixin.dart';
 import 'package:image_filters/modules/pick_image/services/image_picker_service.dart';
 import 'package:image_filters/modules/pick_image/view/widget/image_pick_bottem_sheet.dart';
@@ -36,13 +37,13 @@ class PickImageBloc extends Bloc<PickImageBlocEvent, PickImageBlocState>
       emit(PickImagePermissionError());
       return;
     }
-    final (path, _) = await openGallery();
+    final (image, _) = await openGallery();
     removeFullLoader();
-    if (path == null) {
+    if (image == null) {
       Fluttertoast.showToast(msg: "Image pick failed/canceled.");
       return;
     }
-    emit(PickImageResultState(imagePath: path));
+    emit(PickImageResultState(image: image));
   }
 
   void _pickImageCamera(
@@ -56,12 +57,12 @@ class PickImageBloc extends Bloc<PickImageBlocEvent, PickImageBlocState>
       emit(PickImagePermissionError());
       return;
     }
-    final (path, _) = await openCamera();
+    final (image, _) = await openCamera();
     removeFullLoader();
-    if (path == null) {
+    if (image == null) {
       Fluttertoast.showToast(msg: "Image pick failed/canceled.");
       return;
     }
-    emit(PickImageResultState(imagePath: path));
+    emit(PickImageResultState(image: image));
   }
 }

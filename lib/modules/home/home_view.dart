@@ -113,13 +113,13 @@ class HomeView extends StatelessWidget {
         }
         if (state is PickImageResultState) {
           return Column(
-            key: ValueKey(state.imagePath),
+            key: ObjectKey(state.image),
             children: [
               const SizedBox(height: 5),
               const ImageFilterTabBar(),
               const SizedBox(height: 20),
               Expanded(
-                child: ImageFiltersView(imagePath: state.imagePath),
+                child: ImageFiltersView(image: state.image),
               ),
             ],
           );

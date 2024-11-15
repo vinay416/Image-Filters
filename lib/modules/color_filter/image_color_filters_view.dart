@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit.dart';
 import 'package:image_filters/modules/color_filter/cubit/color_filter_cubit_state.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:image_filters/modules/color_filter/widget/color_filter_preview.dart';
 
 import 'widget/image_color_filters.dart';
 
 class ImageColorFiltersView extends StatefulWidget {
-  const ImageColorFiltersView({super.key, required this.imagePath});
-  final String imagePath;
+  const ImageColorFiltersView({super.key, required this.image});
+  final ImagePickModel image;
 
   @override
   State<ImageColorFiltersView> createState() => _ImageColorFiltersViewState();
@@ -46,7 +47,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
       viewportFraction: 0.9,
       initialPage: cubit.index,
     );
-    ssController = WidgetSSController(widget.imagePath);
+    ssController = WidgetSSController(widget.image);
   }
 
   @override
@@ -56,7 +57,7 @@ class _ImageColorFiltersViewState extends State<ImageColorFiltersView> {
   }
 
   void precache() {
-    imageFile = FileImage(File(widget.imagePath));
+    imageFile = FileImage(File(widget.image.path));
     precacheImage(imageFile, context);
   }
 

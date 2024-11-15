@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_filters/core/overlay_loader_mixin.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 import 'package:image_filters/modules/screenshot/service/storage_permission_mixin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
@@ -31,9 +32,9 @@ class WidgetScreenshot extends StatelessWidget {
 }
 
 class WidgetSSController with StoragePermissionMixin, OverlayLoaderMixin {
-  WidgetSSController(this.imagePath);
+  WidgetSSController(this.originalImage);
   final screenshotKey = GlobalKey();
-  final String imagePath;
+  final ImagePickModel originalImage;
 
   Future<File?> takeScreenShot() async {
     try {
@@ -45,18 +46,16 @@ class WidgetSSController with StoragePermissionMixin, OverlayLoaderMixin {
       final pngBytes = byteData?.buffer.asUint8List();
       if (pngBytes == null) throw Exception("Image SS bytes null");
 
-      final directoryPath = await _getDirectoryPath();
-      if (directoryPath == null) {
+      final dirPath = await _getDirectoryPath();
+      if (dirPath == null) {
         Fluttertoast.showToast(msg: "Stoarge Permission not allowed");
-        throw Exception("Directory path $directoryPath");
+        throw Exception("Directory path $dirPath");
       }
 
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final fileName =
-          imagePath.split('/').last.substring(0, imagePath.indexOf('.'));
-      final mimetype = imagePath.split('.').last;
-      final customDir =
-          "$directoryPath/Filters/${fileName}_$timestamp.$mimetype";
+      final fileName = originalImage.name;
+      final mimetype = originalImage.mime;
+      final customDir = "$dirPath/Filters/${fileName}_$timestamp.$mimetype";
       final imgFile = File(customDir);
       if (!imgFile.existsSync()) {
         imgFile.createSync(recursive: true);

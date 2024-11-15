@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_filters/modules/ai_filter/view/image_tools/view/text_tools_view.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'image_preview/view/ai_image_preview.dart';
 
 class AiImageFilterView extends StatefulWidget {
-  const AiImageFilterView({super.key, required this.imagePath});
-  final String imagePath;
+  const AiImageFilterView({super.key, required this.image});
+  final ImagePickModel image;
 
   @override
   State<AiImageFilterView> createState() => _AiImageFilterViewState();
@@ -20,8 +21,8 @@ class _AiImageFilterViewState extends State<AiImageFilterView> {
 
   @override
   void initState() {
-    imagePath = widget.imagePath;
-    ssController = WidgetSSController(imagePath);
+    imagePath = widget.image.path;
+    ssController = WidgetSSController(widget.image);
     super.initState();
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_filters/modules/gradient_filter/gradient_mask/gradint_filters.dart';
 import 'package:image_filters/modules/gradient_filter/widget/gradient_image_preview.dart';
+import 'package:image_filters/modules/pick_image/model/image_pick_model.dart';
 import 'package:image_filters/modules/screenshot/controller/widget_screenshot.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -13,9 +14,9 @@ import 'widget/gradient_filters_colors_list.dart';
 class GradientImageFiltersView extends StatefulWidget {
   const GradientImageFiltersView({
     super.key,
-    required this.imagePath,
+    required this.image,
   });
-  final String imagePath;
+  final ImagePickModel image;
 
   @override
   State<GradientImageFiltersView> createState() =>
@@ -39,12 +40,12 @@ class _GradientImageFiltersViewState extends State<GradientImageFiltersView> {
     );
     cubit.setPageController(controller);
     cubit.setColorListController(colorListcontroller);
-    ssController = WidgetSSController(widget.imagePath);
+    ssController = WidgetSSController(widget.image);
   }
 
   @override
   void didChangeDependencies() {
-    imageFile = FileImage(File(widget.imagePath));
+    imageFile = FileImage(File(widget.image.path));
     precacheImage(imageFile, context);
     super.didChangeDependencies();
   }

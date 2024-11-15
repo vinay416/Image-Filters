@@ -5,9 +5,9 @@ abstract class PickImageBlocState {}
 class ImageEmptyState extends PickImageBlocState {}
 
 class PickImageResultState extends PickImageBlocState {
-  final String imagePath;
+  final ImagePickModel image;
   PickImageResultState({
-    required this.imagePath,
+    required this.image,
   });
 }
 
