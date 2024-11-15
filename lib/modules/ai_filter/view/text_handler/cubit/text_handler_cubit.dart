@@ -15,7 +15,7 @@ class TextHandlerCubit extends Cubit<TextHandlerCubitState> {
     position: Offset.zero,
     rotate: Offset.zero,
     isEditing: false,
-    isFieldFocused: true,
+    isFieldFocused: false,
     isForegroundText: true,
     backgroundBlur: 0,
   );
